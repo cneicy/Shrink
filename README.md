@@ -1,5 +1,5 @@
-# JrrpUtils
-Jrrp but not only.
+# Shrink
+Core of Shrink
 
 From
 

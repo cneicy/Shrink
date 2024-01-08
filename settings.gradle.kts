@@ -1,1 +1,1 @@
-rootProject.name = "JrrpP"
+rootProject.name = "Shrink"
