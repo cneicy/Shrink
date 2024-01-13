@@ -14,15 +14,12 @@ import java.util.*
 import kotlin.random.Random
 
 /*
-    第三代机器人使用的原语料曾在其它插件使用sql挂置。
-    因尊重原作者及协议需要，Eicy将所有语料重新集成到此插件中并进行开源。
-    代码能优化我是知道的，但又不是不能用。
     一代:https://github.com/bingling-sama/BakaHDT
     二代:https://github.com/GBLodb/ChlorineSharp
 */
 object Shrink : KotlinPlugin(
     JvmPluginDescription(
-        id = "work.crash.eicy.Shrink",
+        id = "work.crash.eicy.ShrinkCore",
         name = "ShrinkCore",
         version = "1.0",
     )
@@ -32,28 +29,10 @@ object Shrink : KotlinPlugin(
         logger.info { "ShrinkCore loaded" }
         val eventChannel = GlobalEventChannel.parentScope(this)
         eventChannel.subscribeAlways<GroupMessageEvent> {
-            val gID = group.id
-            val twGr = 624487948L
-            val gGr = 695610436L
-            val isTarget = gID == twGr || gID == gGr
-
-            val festivalMap = mapOf(
-                240209 to "除夕",
-                240210 to "春节",
-                240214 to "情人节",
-                240224 to "元宵节",
-                240404 to "清明节",
-                240501 to "劳动节",
-                240610 to "端午节",
-                240810 to "七夕节",
-                240917 to "中秋节",
-                241001 to "国庆节"
-            )
-
             val today = SimpleDateFormat("yyMMdd").format(Date()).toInt()
-
-            val isFestival = festivalMap.keys.contains(today)
-
+            if (message.contentToString() == "/ping") {
+                group.sendMessage("Pong!")
+            }
 
             if (message.contentToString() == "/jrrp") {
                 val senderID = this.sender.id
@@ -67,10 +46,6 @@ object Shrink : KotlinPlugin(
                 }
                 group.sendMessage(chain)
             }
-            if (message.contentToString() == "/ping") {
-                group.sendMessage("Pong!")
-            }
-
             if (message.contentToString() == "/r今日猝死率") {
                 val senderID = this.sender.id
                 val random = Random(
@@ -85,78 +60,24 @@ object Shrink : KotlinPlugin(
                 group.sendMessage(chain)
             }
 
+
+            val isFestival = CustomData.festivalMap.keys.contains(today)
             if (message.contentToString() == "/modpacktoday?" || message.contentToString() == "/modpacktoday？" || message.contentToString() == "/modpacktoday") {
                 val senderID = this.sender.id
                 if (isFestival) {
                     val chain = buildMessageChain {
                         +At(senderID)
-                        +PlainText("隔壁叔叔"+festivalMap.get(today)+"还在做魔改，你长大千万别像他那样。")
+                        +PlainText("隔壁叔叔" + CustomData.festivalMap.get(today) + "还在做魔改，你长大千万别像他那样。")
                     }
                     group.sendMessage(chain)
                 } else {
                     val random = Random(
                         (today xor senderID.toInt()).toLong()
                     )
-                    val corpus: Array<String> = arrayOf(
-                        " 你这辈子就只能做原生了。",
-                        " 天灵灵地灵灵，魔改大仙快显灵。",
-                        " 冒险包没有暮色，就像丁真没了雪豹。",
-                        " 适合头脑风暴，做包容易摆。",
-                        " 没有日志我能做的事只有帮你算一卦。",
-                        " 来点酷炫的实现！",
-                        "今天的人品值是: NaN",
-                        " 文档出没，大脑慢行。",
-                        " 只能搓一点点，不能搓多了。",
-                        " 魔改虽好，请不要贪杯哦。",
-                        " 空中有指针划过，谨防报错。",
-                        " /modpacktoday?",
-                        " 你看我整不整活就完事了。",
-                        " 草！(脚本报错)走！(进群问)忽略！(忘发pastebin)",
-                        " 做包时可能偶尔要看Doc。",
-                        " 做冒险包？考虑一下用数据包实现Boss技能吧！",
-                        " 整片天空都是CrT的颜色。",
-                        " 今日运势：凶，当心任务线绊倒人。",
-                        " 魔改一写、一Debug、一天就过去了哈~",
-                        " 宜:魔改。",
-                        " 谨防配方伤人事件。",
-                        " 试试搓个库吧。",
-                        " 小 心 迷 信",
-                        " 最讨厌的两种人，一种是报错发群不发全，另一种是",
-                        " 可以放开手脚地搓！",
-                        " 谨防伪劣魔改伤人。",
-                        " 今天玩玩自己的包？",
-                        " 友谊护佑，今日代码出错概率降低。",
-                        " 超级魔改人！",
-                        " 在帮助玩家解决问题时你发现TA电脑里有二十多个Java",
-                        " 恐怖魔改人！",
-                        " ---CLEANROOM---",
-                        " 今日运势：吉，艺术细胞复苏；宜做材质，忌摆配方。",
-                        " 吾日三省吾身，看文档了没，拜友谊了没，语法检查了没。",
-                        " 有没有考虑过自己玩自己的整合包?",
-                        " 小改怡情，大改伤身，全改鸽子纷飞。",
-                        " 今日在scripts路出现了一起分号失踪事件，造成三个配方报错，两位大佬升压，请各位魔改人保管好自己的分号。",
-                        " 魔改千万条，安全第一条；代码不规范，友谊两行泪。",
-                        " 魔改千万条，安全第一条；数值不规范，玩家泪两行。",
-                        " 谨防GT污染!!!",
-                        " 前途一片光明啊！（赞赏",
-                        " 本条语料由格雷科技无限公司赞助!",
-                        " 本条语料由沉浸重工友情冠名！",
-                        " 本条语料由热力建筑倾情赞助",
-                        " 本条语料由末影接口独家代言",
-                        " 虫子出没，谨防报错!",
-                        " 伤肝事小，费时事大，做包适度！",
-                        " 今日在minecraft街道出现一起魔改伤人事件，当事整合包咬伤过路行人肝五个，现已被魔改规范局逮捕！希望各位玩家和作者谨防大型整合包伤人。",
-                        " 你看那天上的烟花像不像你的报错 五花八门~",
-                        " 你的整合包已经被我reika的替身【瞬间崩溃】摸过了！",
-                        " 报错就像海绵里的水，只要你肯挤，总会出来的。",
-                        " 行",
-                        " 做整合包哪有不疯的，硬撑罢了！",
-                        " 今日已控制数名意欲行刺整合包作者的玩家，他们被捕前大喊反对赛博徭役口号。",
-                        " 不行"
-                    )
+
                     val answer: String?
-                    val randInt = random.nextInt(corpus.size)
-                    answer = corpus[randInt]
+                    val randInt = random.nextInt(CustomData.corpus.size)
+                    answer = CustomData.corpus[randInt]
 
                     val chain = buildMessageChain {
                         +At(senderID)
@@ -166,7 +87,8 @@ object Shrink : KotlinPlugin(
                 }
             }
 
-            if (isTarget) {
+            
+            if (CustomData.groupArray.contains(group.id)) {
                 when (message.contentToString()) {
                     "/help" ->
                         group.sendMessage(
@@ -296,8 +218,7 @@ UsefulMods: https://github.com/TheUsefulLists/UsefulMods"""
             }
         }
         eventChannel.subscribeAlways<MemberJoinEvent> {
-            val groupID = group.id
-            if (groupID == 624487948L || groupID == 214558144L) {
+            if (CustomData.groupArray.contains(group.id)) {
                 group.sendMessage(
                     """欢迎加入Minecraft魔改交流群，进群请先阅读所有置顶公告。提问请携带尽可能多的相关信息
 Discord群：https://discord.gg/sB9PhGcutE/
