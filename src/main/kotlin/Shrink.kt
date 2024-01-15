@@ -67,7 +67,7 @@ object Shrink : KotlinPlugin(
                 if (isFestival) {
                     val chain = buildMessageChain {
                         +At(senderID)
-                        +PlainText("隔壁叔叔" + CustomData.festivalMap.get(today) + "还在做魔改，你长大千万别像他那样。")
+                        +PlainText("隔壁叔叔" + CustomData.festivalMap[today] + "还在做魔改，你长大千万别像他那样。")
                     }
                     group.sendMessage(chain)
                 } else {
@@ -218,23 +218,8 @@ UsefulMods: https://github.com/TheUsefulLists/UsefulMods"""
             }
         }
         eventChannel.subscribeAlways<MemberJoinEvent> {
-            if (CustomData.groupArray.contains(group.id)) {
-                group.sendMessage(
-                    """欢迎加入Minecraft魔改交流群，进群请先阅读所有置顶公告。提问请携带尽可能多的相关信息
-Discord群：https://discord.gg/sB9PhGcutE/
-CRT等魔改类模组错误还需附带脚本内容和输出LOG。
-详见/ask/pastebin/log
------------------
-能解决你大部分疑惑的视频:
-https://b23.tv/Qu6aAY
-https://b23.tv/d2brHg
------------------
-本群会不定期清理长期不发言的人。
-本群允许分享整合包(私人整合包自建整合包领域服个人服务器包)。
------------------
-群内分享的代码片段、音效、材质等资源，使用协议和最终解释权归[发布者]，[商业使用]请提前咨询以避免踩雷。
------------------"""
-                )
+            if (CustomData.groupArray.contains(group.id)){
+                group.sendMessage(CustomData.welcomeMap[group.id].toString())
             }
         }
     }
