@@ -62,6 +62,20 @@ object Shrink : KotlinPlugin(
 
 
             val isFestival = CustomData.festivalMap.keys.contains(today)
+            if(message.contentToString() == "/gamedevtoday"){
+                val senderID = this.sender.id
+                val random = Random(
+                    (today xor senderID.toInt()).toLong()
+                )
+                val answer: String?
+                val randInt = random.nextInt(CustomData.gameDev.size)
+                answer = CustomData.gameDev[randInt]
+                val chain = buildMessageChain {
+                    +At(senderID)
+                    +PlainText(answer)
+                }
+                group.sendMessage(chain)
+            }
             if (message.contentToString() == "/modpacktoday?" || message.contentToString() == "/modpacktoday？" || message.contentToString() == "/modpacktoday") {
                 val senderID = this.sender.id
                 if (isFestival) {

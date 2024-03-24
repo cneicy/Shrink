@@ -2,7 +2,7 @@ package work.crash.eicy
 
 class CustomData {
 
-    companion object instance{
+    companion object Instance{
         val festivalMap = mapOf(
             240209 to "除夕",
             240210 to "春节",
@@ -49,6 +49,30 @@ https://b23.tv/d2brHg
 -----------------"""
         )
 
+        val gameDev: Array<String> = arrayOf(
+            " 喜报：你Tilemap Collider2D + Composite Collider2D失效了。",
+            " 今天也是超级游戏人！",
+            " 摆了。",
+            " 今日运势不错，Update里写While。",
+            " ArgumentOutOfRangeException!",
+            " NullReferenceException!",
+            " UnassignedReferenceException!",
+            " 小心约翰里奇蒂洛！",
+            " 你染上游戏开发了？",
+            " 今天写的Bug有可能成为游戏特性。",
+            " 吉：策划的需求能做完。",
+            " 今日Bug频发，小心空中指针报错！",
+            " 今日渲染器爆炸。",
+            " 今日灵感丰富。",
+            " 小 心 策 划 ！",
+            " 游开报：近日发生一起恶性伤人事件，项目组内程序对策划长期积压的不满爆发导致策划被程序殴打其Hitbox多次，策划hp几近于零。",
+            " 适合开发组团建。",
+            " 这是一条运势。",
+            " 文档出没，大脑慢行。",
+            " 写逻辑时记得画思维导图！",
+            " 你面数乱了。"
+        )
+        
         val corpus: Array<String> = arrayOf(
             " 你这辈子就只能做原生了。",
             " 天灵灵地灵灵，魔改大仙快显灵。",
